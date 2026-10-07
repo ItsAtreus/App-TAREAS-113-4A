@@ -1,42 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-
-    <title>Eliminar tarea</title>
+    <meta charset="utf-8">
+    <title>Eliminar producto</title>
 </head>
-
 <body>
-
-    <h1>🗑️ Eliminar tarea</h1>
-
-    <p>
-        ¿Estás seguro de que quieres eliminar esta tarea?
-    </p>
-
-    <h2>{{ tarea.titulo }}</h2>
-
-    <p>
-        {{ tarea.descripcion }}
-    </p>
-
-    <form method="POST">
-
+    <h1>Eliminar producto</h1>
+    <p>¿Eliminar {{ producto.nombre }}?</p>
+    <form method="post">
         {% csrf_token %}
-
-        <button type="submit">
-            Sí, eliminar
-        </button>
-
+        <button type="submit">Sí, eliminar</button>
     </form>
-
-    <br>
-
-    <a href="/">
-        ← Cancelar y volver al inicio
-    </a>
-
+    <p><a href="{% url 'inicio' %}">Cancelar</a></p>
 </body>
-
 </html>
