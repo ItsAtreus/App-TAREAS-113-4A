@@ -1,24 +1,65 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <title>Productos</title>
-</head>
-<body>
-    <h1>Productos</h1>
-    <p><a href="{% url 'crear_producto' %}">Crear producto</a></p>
+{% extends 'tareasapp/base.html' %}
 
-    {% for producto in productos %}
-        <article>
-            <h2>{{ producto.nombre }}</h2>
-            <p>{{ producto.descripcion }}</p>
-            <p>Precio: ${{ producto.precio }} | Stock: {{ producto.stock }} | Categoría: {{ producto.categoria }}</p>
-            <a href="{% url 'detalle_producto' producto.id %}">Ver</a>
-            <a href="{% url 'editar_producto' producto.id %}">Editar</a>
-            <a href="{% url 'eliminar_producto' producto.id %}">Eliminar</a>
-        </article>
-    {% empty %}
-        <p>No hay productos registrados.</p>
-    {% endfor %}
-</body>
-</html>
+{% block content %}
+<h1 class="mb-4">Productos</h1>
+
+<section class="card mb-4">
+    <div class="card-body">
+        <h2 class="h5 mb-3">Agregar producto</h2>
+        <form method="post" action="{% url 'crear_producto' %}">
+            {% csrf_token %}
+            {% for error in form.non_field_errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+            <div class="row g-3">
+                {% for field in form %}
+                <div class="col-md-6">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Guardar producto</button>
+        </form>
+    </div>
+</section>
+
+<section class="card">
+    <div class="card-body">
+        <h2 class="h5 mb-3">Lista de productos</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Nombre del producto</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.categoria }}</td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.descripcion }}</td>
+                        <td>${{ producto.precio }}</td>
+                        <td>{{ producto.stock }}</td>
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                <a class="btn btn-outline-primary btn-sm" href="{% url 'detalle_producto' producto.id %}">Ver</a>
+                                <a class="btn btn-outline-secondary btn-sm" href="{% url 'editar_producto' producto.id %}">Editar</a>
+                                <a class="btn btn-outline-danger btn-sm" href="{% url 'eliminar_producto' producto.id %}">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="text-center text-muted py-4">No hay productos registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

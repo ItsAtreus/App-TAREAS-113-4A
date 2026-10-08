@@ -1,16 +1,17 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <title>Eliminar producto</title>
-</head>
-<body>
-    <h1>Eliminar producto</h1>
-    <p>¿Eliminar {{ producto.nombre }}?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Sí, eliminar</button>
-    </form>
-    <p><a href="{% url 'inicio' %}">Cancelar</a></p>
-</body>
-</html>
+{% extends 'tareasapp/base.html' %}
+
+{% block title %}Eliminar producto{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Eliminar producto</h1>
+<div class="card">
+    <div class="card-body">
+        <p>¿Eliminar {{ producto.nombre }}?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'inicio' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

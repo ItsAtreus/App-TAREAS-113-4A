@@ -6,7 +6,10 @@ from .models import Producto
 
 def inicio(request):
     productos = Producto.objects.all()
-    return render(request, 'tareasapp/inicio.html', {'productos': productos})
+    return render(request, 'tareasapp/inicio.html', {
+        'productos': productos,
+        'form': ProductoForm(),
+    })
 
 
 def crear_producto(request):
